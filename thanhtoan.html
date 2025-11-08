@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh Toán - Cửa Hàng Hoa Tươi Tuna</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🛒 Thanh Toán Đơn Hàng</h1>
+        <nav>
+            <ul>
+                <li><a href="baitaplon.html">Trang Chủ</a></li>
+                <li><a href="thanhtoan.html">Thanh Toán</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="order">
+        <h2>Đặt Hoa & Thanh Toán</h2>
+        <form class="order-form" onsubmit="return false;">
+            <label for="name">Họ và tên:</label>
+            <input type="text" id="name" name="name" placeholder="Nhập họ tên của bạn" required>
+
+            <label for="phone">Số điện thoại:</label>
+            <input type="tel" id="phone" name="phone" placeholder="Nhập số điện thoại" required>
+
+            <label>Chọn loại hoa (có thể chọn nhiều):</label>
+            <div class="flower-options">
+                <label><input type="checkbox" name="flower" value="150000"> Hoa Hồng Đỏ - 150.000đ</label>
+                <label><input type="checkbox" name="flower" value="120000"> Hoa Hướng Dương - 120.000đ</label>
+                <label><input type="checkbox" name="flower" value="180000"> Hoa Ly Trắng - 180.000đ</label>
+                <label><input type="checkbox" name="flower" value="160000"> Hoa Tulip - 1600.000đ</label>
+                <label><input type="checkbox" name="flower" value="130000"> Hoa Cẩm Chướng - 130.000đ</label>
+                <label><input type="checkbox" name="flower" value="130000"> Hoa Thủy Tiên - 130.000đ</label>
+                <label><input type="checkbox" name="flower" value="170000"> Hoa Mẫu đơn - 170.000đ</label>
+                <label><input type="checkbox" name="flower" value="110000"> Hoa Oải Hương - 110.000đ</label>
+                <label><input type="checkbox" name="flower" value="120000"> Hoa Cẩm Tú cầu - 120.000đ</label>
+                <label><input type="checkbox" name="flower" value="100000"> Hoa Cúc Mi - 100.000đ</label>
+                <label><input type="checkbox" name="flower" value="160000"> Hoa Cát Tường- 160.000đ</label>
+                <label><input type="checkbox" name="flower" value="180000"> Hoa Baby Hồng - 180.000đ</label>
+                
+                
+            </div>
+
+            <div class="total-box">
+                <strong>Tổng tiền:</strong> <span id="total">0</span> đ
+            </div>
+
+            <label for="address">Địa chỉ giao hàng:</label>
+            <input type="text" id="address" name="address" placeholder="Nhập địa chỉ giao hàng" required>
+
+            <label>Phương thức thanh toán:</label>
+            <div class="payment-methods">
+                <label><input type="radio" name="payment" value="tienmat" checked> Tiền mặt khi nhận hàng</label>
+                <label><input type="radio" name="payment" value="chuyenkhoan"> Chuyển khoản ngân hàng</label>
+                <label><input type="radio" name="payment" value="qr"> Quét mã QR</label>
+            </div>
+
+            <div id="payment-info" class="payment-info">
+                <!-- Thông tin phương thức thanh toán sẽ thay đổi theo lựa chọn -->
+            </div>
+
+            <button type="submit" class="btn" onclick="confirmOrder()">Xác Nhận Đặt Hoa</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>© 2025 Cửa Hàng Hoa Tươi Tuna. Thiết kế bởi Tuấn Trần.</p>
+    </footer>
+
+    <script>
+        // Cập nhật tổng tiền khi chọn hoa
+        const checkboxes = document.querySelectorAll('input[name="flower"]');
+        const totalDisplay = document.getElementById('total');
+        checkboxes.forEach(box => {
+            box.addEventListener('change', () => {
+                let total = 0;
+                checkboxes.forEach(c => {
+                    if (c.checked) total += parseInt(c.value);
+                });
+                totalDisplay.textContent = total.toLocaleString('vi-VN');
+            });
+        });
+
+        // Hiển thị thông tin phương thức thanh toán
+        const paymentRadios = document.querySelectorAll('input[name="payment"]');
+        const paymentInfo = document.getElementById('payment-info');
+
+        paymentRadios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                switch (radio.value) {
+                    case 'tienmat':
+                        paymentInfo.innerHTML = "<p>Bạn sẽ thanh toán trực tiếp khi nhận hoa 🌸</p>";
+                        break;
+                    case 'chuyenkhoan':
+                        paymentInfo.innerHTML = "<p>Ngân hàng: BIDV<br>Chủ TK: TRAN DANG TUAN<br>Số TK:4311157089</p>";
+                        break;
+                    case 'qr':
+                        paymentInfo.innerHTML = "<p>Quét mã QR để thanh toán:<br><img src='mã qr.jpg' width='120'></p>";
+                        break;
+                }
+            });
+        });
+
+        // Xác nhận đặt hàng
+        function confirmOrder() {
+            const name = document.getElementById('name').value.trim();
+            const total = totalDisplay.textContent;
+            if (name === '' || total === '0') {
+                alert('Vui lòng nhập đầy đủ thông tin và chọn ít nhất một loại hoa!');
+                return;
+            }
+            alert(`Cảm ơn ${name}! Đơn hàng của quý khách đã đặt thành công.\nTổng tiền: ${total} đ\nChúng tôi sẽ liên hệ sớm.`);
+        }
+    </script>
+</body>
+</html>
+
